@@ -1,7 +1,7 @@
 import axios from "axios";
 import Login from "./components/login";
 import Navbar from "./components/navbar";
-import { LOGIN_URL } from './constants/constant';
+import { LOGIN_URL, LOGOUT_URL } from './constants/constant';
 import React, { useState } from 'react'
 import Logout from "./components/logout";
 
@@ -41,20 +41,30 @@ function App() {
     }
   };
 
-  const handleLogout = async (event) => {
+  const handleLogout = async(event) => {
     event.preventDefault();
+    // TODO - With out bearer token Handle error
+    // const response = await axios.delete(LOGOUT_URL);
+    const response = await axios.delete(LOGOUT_URL,{
+      headers: {Authorization: `Bearer ${token}`}
+    });
 
-    // const response
+    if (response.status >= 200 && response.status < 300) {
+      setUserEmail('');
+      setToken('');
+      setUser({email: '', password: ''});
+      localStorage.removeItem('token');
+      localStorage.removeItem('userEmail');
+    } else {
+      console.log(response.data);
+    }
   };
 
   return (
     <>
-    <Navbar userEmail={userEmail}/>
+    <Navbar userEmail={userEmail} handleLogout={handleLogout}/>
     <div className="container">
-    { userEmail ?
-        <Logout
-          handleLogout={handleLogout} 
-        /> :
+    { !userEmail &&
         <Login 
           user={user}
           handleChange={handleChange}

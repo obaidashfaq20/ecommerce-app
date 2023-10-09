@@ -1,9 +1,11 @@
 import React from 'react'
 
-export default function Logout() {
+export default function Logout(props) {
   return (
-    <button className='btn btn-danger'>
-      Log Out
-    </button>
+    <>
+      <button onClick={props.handleLogout} className='btn btn-danger'>
+        Log Out
+      </button>
+    </>
   )
 }
