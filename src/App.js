@@ -8,6 +8,7 @@ import Logout from "./components/logout";
 function App() {
   const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail') || '');
   const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const [error, setError] = useState('');
   const [user, setUser] = useState({
     email: '',
     password: ''
@@ -33,23 +34,29 @@ function App() {
   const handleLogin = async (event) => {
     event.preventDefault();
 
-    const response = await axios.post(LOGIN_URL,  {user});
-    if (response.status >= 200 && response.status < 300) {
-      // The request was successful, and the status code is in the 200-299 range.
-      const authorizationHeader = response.headers.get('authorization');
-      if (authorizationHeader) {
-        const bearerToken = authorizationHeader.split(' ')[1];
-        const email = response.data.status.data.user.email;
-        setToken(bearerToken);
-        setUserEmail(email);
-        localStorage.setItem('token', bearerToken);
-        localStorage.setItem('userEmail', email);
+    try {
+      const response = await axios.post(LOGIN_URL,  {user});
+      if (response.status >= 200 && response.status < 300) {
+        // The request was successful, and the status code is in the 200-299 range.
+        const authorizationHeader = response.headers.get('authorization');
+        if (authorizationHeader) {
+          const bearerToken = authorizationHeader.split(' ')[1];
+          const email = response.data.status.data.user.email;
+          setToken(bearerToken);
+          setUserEmail(email);
+          setError('');
+          localStorage.setItem('token', bearerToken);
+          localStorage.setItem('userEmail', email);
+        } else {
+          // Token not found
+        }
       } else {
-        // Token not found
+        // The request was not successful, and the status code is outside the 200-299 range.
+        console.error('Request failed with status:', response.status);
+        setError(response.data);
       }
-    } else {
-      // The request was not successful, and the status code is outside the 200-299 range.
-      console.error('Request failed with status:', response.status);
+    } catch (error) {
+      setError(error.response.data);
     }
   };
 
@@ -79,6 +86,7 @@ function App() {
     { !token &&
         <Login 
           user={user}
+          error={error}
           handleChange={handleChange}
           handleLogin={handleLogin}
         />
