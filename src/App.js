@@ -2,7 +2,7 @@ import axios from "axios";
 import Login from "./components/login";
 import Navbar from "./components/navbar";
 import { LOGIN_URL, LOGOUT_URL } from './constants/constant';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Logout from "./components/logout";
 
 function App() {
@@ -12,6 +12,18 @@ function App() {
     email: '',
     password: ''
   });
+
+  useEffect(() => {
+    // Check if a token is already stored in local storage
+    const storedToken = localStorage.getItem('token');
+    if (storedToken) {
+      setToken(storedToken);
+    } else {
+      setUserEmail('');
+      setToken('');
+      setUser({email: '', password: ''});
+    }
+  }, []);
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -62,9 +74,9 @@ function App() {
 
   return (
     <>
-    <Navbar userEmail={userEmail} handleLogout={handleLogout}/>
+    <Navbar token={token} userEmail={userEmail} handleLogout={handleLogout}/>
     <div className="container">
-    { !userEmail &&
+    { !token &&
         <Login 
           user={user}
           handleChange={handleChange}
