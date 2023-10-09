@@ -23,7 +23,7 @@ export default function Navbar(props) {
                   <a className="nav-link" href="/home">Home</a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="#">Link</a>
+                  <button onClick={() => navigator.clipboard.writeText(props.token)} className='nav-link' >Copy token</button>
                 </li>
                   <li className="nav-item">
                     <span className="nav-link">You are logged in as {props.userEmail}</span>
