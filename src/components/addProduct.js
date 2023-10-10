@@ -18,7 +18,6 @@ export default function AddProduct(props) {
 
   const handleSubmit = async(event) => {
     event.preventDefault();
-    console.log(props.token)
     props.setNewProduct(false);
     try {
       var data = JSON.stringify({ product });
