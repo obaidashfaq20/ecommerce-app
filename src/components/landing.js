@@ -103,7 +103,7 @@ function Landing() {
         {newProduct ?
           <AddProduct token={token} setNewProduct={setNewProduct} /> : 
           <>
-            <button onClick={()=>setNewProduct(true)}className="btn btn-primary">Add new Product</button>
+            <button onClick={()=>setNewProduct(true)}className="btn btn-primary m-2">Add new Product</button>
             <Product token={token} />
           </>}
         </>

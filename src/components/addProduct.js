@@ -44,15 +44,15 @@ export default function AddProduct(props) {
     <form>
       <div className="form-group">
         <label htmlFor="name">Name</label>
-        <input onChange={handleAddProductChange} type="name" name="name" className="form-control" id="name" placeholder="Enter name" required />
+        <input onChange={handleAddProductChange} type="text" name="name" className="form-control" id="name" placeholder="Enter name" required />
       </div>
       <div className="form-group">
         <label htmlFor="description">Description</label>
-        <input onChange={handleAddProductChange} type="description" name="description" className="form-control" id="description" placeholder="description" required/>
+        <input onChange={handleAddProductChange} type="text" name="description" className="form-control" id="description" placeholder="description" required/>
       </div>
       <div className="form-group">
         <label htmlFor="price">Price</label>
-        <input onChange={handleAddProductChange} type="price" name="price" className="form-control" id="price" placeholder="price" required/>
+        <input onChange={handleAddProductChange} type="number" name="price" className="form-control" id="price" placeholder="price" required/>
       </div>
       <div className="form-check">
         <input onChange={handleAddProductChange} className="form-check-input" name="availability" type="checkbox" id="availability" />
