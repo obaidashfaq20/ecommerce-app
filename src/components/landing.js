@@ -4,8 +4,11 @@ import Navbar from "./navbar";
 import { LOGIN_URL, LOGOUT_URL } from '../constants/constant';
 import React, { useEffect, useState } from 'react'
 import Product from "./product";
+import jwt_decode from 'jwt-decode';
+import AddProduct from "./addProduct";
 
 function Landing() {
+  const [newProduct, setNewProduct] = useState(false);
   const [userEmail, setUserEmail] = useState(localStorage.getItem('userEmail') || '');
   const [token, setToken] = useState(localStorage.getItem('token') || '');
   const [error, setError] = useState('');
@@ -19,6 +22,18 @@ function Landing() {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       setToken(storedToken);
+
+      // if token expires
+      const decodedToken = jwt_decode(token)
+      const currentTime = Date.now()/1000
+
+      if (decodedToken.exp < currentTime) {
+        setUserEmail('');
+        setToken('');
+        setUser({email: '', password: ''});
+        localStorage.removeItem('token');
+        localStorage.removeItem('userEmail');
+      }
     } else {
       setUserEmail('');
       setToken('');
@@ -84,7 +99,15 @@ function Landing() {
     <Navbar token={token} userEmail={userEmail} handleLogout={handleLogout}/>
     <div className="container">
     { token ?
-        <Product token={token} /> :
+        <>
+        {newProduct ?
+          <AddProduct token={token} setNewProduct={setNewProduct} /> : 
+          <>
+            <button onClick={()=>setNewProduct(true)}className="btn btn-primary">Add new Product</button>
+            <Product token={token} />
+          </>}
+        </>
+        :
         <Login
           user={user}
           error={error}
