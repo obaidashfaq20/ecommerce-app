@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { PRODUCTS_URL } from '../../constants/constant';
-import { Button, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
 import './product.css'
+import { useSelector } from 'react-redux';
 
 export default function Product() {
   const [products, setProducts] = useState([]);
-  const [token, setToken] = useState(localStorage.getItem('user-token') || '');
+  const token = useSelector(state => state.user.token);
   useEffect(() => {
     const fetchProducts = async() =>{
       try {
@@ -31,7 +31,7 @@ export default function Product() {
   }
 
   const handleDelete = async(product_id) => {
-    const response = await axios.delete(`${PRODUCTS_URL}/${product_id}`, {
+    await axios.delete(`${PRODUCTS_URL}/${product_id}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     setProducts((prevProducts) =>

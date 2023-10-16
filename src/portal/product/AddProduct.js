@@ -1,11 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react'
 import { PRODUCTS_URL } from '../../constants/constant';
-import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap';
+import { Modal, Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+// import { Modal } from 'bootstrap';
 
 export default function AddProduct() {
   const navigate = useNavigate();
+
+  const token = useSelector(state => state.user.token);
+  const [show, setShow] = useState(false);
   const [product, setProduct] = useState({
     name: '',
     description: '',
@@ -21,7 +26,6 @@ export default function AddProduct() {
 
   const handleSubmit = async(event) => {
     event.preventDefault();
-    const token = localStorage.getItem('user-token');
     try {
       var data = JSON.stringify({ product });
       var config = {
@@ -33,65 +37,62 @@ export default function AddProduct() {
         },
         data : data
       };
-      const response = await axios(config);
+      await axios(config);
       navigate('/products');
     } catch (error) {
       console.log(error);
     }
   }
 
+  const handleShow = () => {setShow(true)};
+  const handleClose =() => {setShow(false)};
+
   return (
     <>
-      <Container className='my-5'>
-        <h2 className='fw-normal mb-5'>Add a new Product</h2>
-        <Row>
-          <Col md={{span: 6}}>
-            <Form id='addProductForm' onSubmit={handleSubmit}>
-              <FormGroup className="mb-3">
-                <FormLabel htmlFor={'product-name'}>Name</FormLabel>
-                <input type={'text'} className="form-control" id={'product-name'} name="name" onChange={handleAddProductChange}required />
-              </FormGroup>
-              <FormGroup className="mb-3">
-                <FormLabel htmlFor={'product-description'}>Description</FormLabel>
-                <input type={'text'} className="form-control" id={'product-description'} name="description" onChange={handleAddProductChange} required />
-              </FormGroup>
-              <FormGroup className="mb-3">
-                <FormLabel htmlFor={'product-price'}>Price</FormLabel>
-                <input type={'number'} className="form-control" id={'product-price'} name="price" onChange={handleAddProductChange} required />
-              </FormGroup>
-              <FormGroup className="mb-3">
-                <FormLabel htmlFor={'product-availability'}></FormLabel>
-                <Form.Check type="checkbox" label="Availability" name="availability" onChange={handleAddProductChange}/>
-              </FormGroup>
-              <Button type="submit" className="btn-success mt-2" id="login-btn">Login</Button>
-            </Form>
-          </Col>
-        </Row>
-      </Container>
+    <Button variant="primary" onClick={handleShow}>
+        Add Prodcuts
+      </Button>
+      {/*  Do not close modal on escape key keyboard={false} */}
+      {/*  Do not close modal on click outside of modal backdrop="static" */}
+      <Modal show={show} onHide={handleClose} keyboard={false} backdrop="static">
+        <Modal.Header closeButton>
+          <Modal.Title className='fw-normal'>Add a New Product</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <Col md={{span: 12}}>
+                <Form id='addProductForm' onSubmit={handleSubmit}>
+                  <FormGroup className="mb-3">
+                    <FormLabel htmlFor={'product-name'}>Name</FormLabel>
+                    <input type={'text'} className="form-control" id={'product-name'} name="name" onChange={handleAddProductChange} required />
+                  </FormGroup>
+                  <FormGroup className="mb-3">
+                    <FormLabel htmlFor={'product-description'}>Description</FormLabel>
+                    <input type={'text'} className="form-control" id={'product-description'} name="description" onChange={handleAddProductChange} required />
+                  </FormGroup>
+                  <FormGroup className="mb-3">
+                    <FormLabel htmlFor={'product-price'}>Price</FormLabel>
+                    <input type={'number'} className="form-control" id={'product-price'} name="price" onChange={handleAddProductChange} required />
+                  </FormGroup>
+                  <FormGroup className="mb-3">
+                    <FormLabel htmlFor={'product-availability'}></FormLabel>
+                    <Form.Check type="checkbox" label="Availability" name="availability" onChange={handleAddProductChange}/>
+                  </FormGroup>
+                </Form>
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Add to Product List
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
-    // <div>
-    //   <h2></h2>
-    // <form>
-    //   <div className="form-group">
-    //     <label htmlFor="name">Name</label>
-    //     <input onChange={handleAddProductChange} type="text" name="name" className="form-control" id="name" placeholder="Enter name" required />
-    //   </div>
-    //   <div className="form-group">
-    //     <label htmlFor="description">Description</label>
-    //     <input onChange={handleAddProductChange} type="text" name="description" className="form-control" id="description" placeholder="description" required/>
-    //   </div>
-    //   <div className="form-group">
-    //     <label htmlFor="price">Price</label>
-    //     <input onChange={handleAddProductChange} type="number" name="price" className="form-control" id="price" placeholder="price" required/>
-    //   </div>
-    //   <div className="form-check">
-    //     <input onChange={handleAddProductChange} className="form-check-input" name="availability" type="checkbox" id="availability" />
-    //     <label className="form-check-label" htmlFor="availability">
-    //       Availability
-    //     </label>
-    //   </div>
-    //   <button onClick={handleSubmit} type="submit" className="btn btn-primary">Add Product</button>
-    // </form>
-    // </div>
   )
 }
