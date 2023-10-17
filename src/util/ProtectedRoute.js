@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom'
+import { setUserLoggedIn, setUserLoggedOut } from '../features/user/userSlice';
 
 export default function ProtectedRoute(props) {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+  const token = useSelector(state => state.user.token);
 
   const checkUserToken = () => {
-    const userToken = localStorage.getItem('user-token');
-
-    if(!userToken || userToken === undefined) {
-      setIsLoggedIn(false);
+    if(!token || token === undefined) {
+      dispatch(setUserLoggedOut());
       navigate('/auth/login');
     }
-    setIsLoggedIn(true);
+    dispatch(setUserLoggedIn());
   }
 
   useEffect(()=>{

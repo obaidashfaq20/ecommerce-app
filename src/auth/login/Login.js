@@ -3,9 +3,13 @@ import React, { useEffect } from 'react'
 import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap'
 import { LOGIN_URL } from '../../constants/constant';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from '../../features/user/userSlice';
 
 export default function Login() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const token = useSelector(state => state.user.token);
 
   const handleSubmit = async(event) => {
     event.preventDefault();
@@ -27,25 +31,22 @@ export default function Login() {
         alert('Unable to login! No token provided by Login API');
         return;
       }
-      localStorage.clear();
-      localStorage.setItem('user-token', token);
-      localStorage.setItem('user-email', data.status.data.user.email);
+      dispatch(login({email: data.status.data.user.email, token: token}));
       setTimeout(()=>{
         navigate('/');
       }, 500);
     }).catch((error)=>{
       buttonPointer.innerHTML = 'Login';
       buttonPointer.removeAttribute('disabled');
-      alert(error.message);
+      alert("Maybe check the backend server! Error: "+error.message);
     });
   }
 
   useEffect(()=>{
-    const token = localStorage.getItem('user-token');
     if (token){
       navigate('/');
     }
-  }, []);
+  }, [token]);
 
   return (
     <>
@@ -56,7 +57,7 @@ export default function Login() {
             <Form id='loginForm' onSubmit={handleSubmit}>
               <FormGroup className="mb-3">
                 <FormLabel htmlFor={'login-email'}>Email</FormLabel>
-                <input type={'email'} className="form-control" id={'login-email'} name="email" required />
+                <input type={'email'} className="form-control" id={'login-email'} name="email" autoComplete="off" required />
               </FormGroup>
               <FormGroup className="mb-3">
                 <FormLabel htmlFor={'login-password'}>Password</FormLabel>

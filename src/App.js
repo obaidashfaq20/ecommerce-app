@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import PortalNavbar from "./portal/navbar/PortalNavbar";
 import PortalFooter from "./portal/footer/PortalFooter";
 import AuthNavbar from "./auth/navbar/AuthNavbar";
 import AuthFooter from "./auth/footer/AuthFooter";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, setUserLoggedIn } from "./features/user/userSlice";
 function App() {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(state => state.user.isLoggedIn);
+  const token = useSelector(state => state.user.token);
 
   const checkUserToken = () => {
-    const userToken = localStorage.getItem('user-token');
-    if (!userToken || userToken === undefined) {
-      localStorage.clear();
+    if (!token || token === undefined) {
+      dispatch(logout());
       navigate('/auth/login');
     }
-    setIsLoggedIn(true);
+    dispatch(setUserLoggedIn());
   }
 
   useEffect(()=>{

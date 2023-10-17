@@ -1,33 +1,23 @@
-import axios from 'axios';
 import React from 'react'
 import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import { LOGOUT_URL } from '../../constants/constant';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../features/user/userSlice';
 
 export default function PortalNavbar() {
-  const userEmail = localStorage.getItem('user-email')
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const userEmail = useSelector(state => state.user.email);
+  const token = useSelector(state => state.user.token);
 
   const copyToken = () => {
-    const token = localStorage.getItem('user-token');
     navigator.clipboard.writeText(token);
   }
 
-  const logout = async() => {
-    const token = localStorage.getItem('user-token');
-    const response = await axios.delete(LOGOUT_URL,{
-      headers: {Authorization: `Bearer ${token}`}
-    });
-    if (response.status >= 200 && response.status < 300) {
-      localStorage.clear();
-      navigate('/auth/login');
-    } else {
-      console.log(response.data);
-    }
-  }
-
-  const forceLogout = () => {
-    localStorage.clear();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/auth/login');
   }
 
   return (
@@ -39,14 +29,10 @@ export default function PortalNavbar() {
             </Navbar.Brand>
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse>
-            <Nav className='ms-auto'>
-              <Nav.Link>
-                <Link to='products/new' className="btn btn-primary"> ADD a product </Link>
-              </Nav.Link>
+            <Nav className='ms-auto'>              
+              <Link to='products/new' className="nav-link mt-2"> ADD a product </Link>
 
-              <Nav.Link>
-                <Link to='/products' className="nav-link">Prodcuts</Link>
-              </Nav.Link>
+              <Link to='/products' className="nav-link mt-2">Prodcuts</Link>
 
               <Nav.Link>
                 <button onClick={() => copyToken()} className='nav-link' >Copy token</button>
@@ -57,11 +43,7 @@ export default function PortalNavbar() {
               </Nav.Link>
 
               <Nav.Link>
-                <Button className='btn-warning' onClick={logout}>Logout</Button>
-              </Nav.Link>
-
-              <Nav.Link>
-                <Button className='btn-secondary' onClick={forceLogout}>Force Logout</Button>
+                <Button className='btn-warning' onClick={handleLogout}>Logout</Button>
               </Nav.Link>
             </Nav>
           </Navbar.Collapse>
