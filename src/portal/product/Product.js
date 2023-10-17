@@ -1,48 +1,41 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
-import { PRODUCTS_URL } from '../../constants/constant';
 import { Container } from 'react-bootstrap';
 import './product.css'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../../features/product/productSice';
 
 export default function Product() {
-  const [products, setProducts] = useState([]);
+  const status = useSelector(state => state.product.status)
+  const products = useSelector(state => state.product.products)
   const token = useSelector(state => state.user.token);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    const fetchProducts = async() =>{
-      try {
-        const response = await axios.get(PRODUCTS_URL,{
-          headers: {Authorization: `Bearer ${token}`}
-        });
-        setProducts(response.data);
-      } catch(error){
-        console.log(error);
-      }
-    }
-    fetchProducts();
+    dispatch(fetchProducts(token));
   }, [token]);
 
   const handleShow = (product_id) => {
-    console.log('Showing details for product '+product_id);
+    console.log('TODO: Showing details for product '+product_id); 
   }
 
   const handleEdit = (product_id) => {
-    console.log('Edit product '+product_id);
+    console.log('TODO: Edit product '+product_id);
   }
 
   const handleDelete = async(product_id) => {
-    await axios.delete(`${PRODUCTS_URL}/${product_id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
-    setProducts((prevProducts) =>
-      prevProducts.filter((product) => product.id !== product_id)
-    );
+    console.log('TODO: Delete product '+product_id);
+    // await axios.delete(`${PRODUCTS_URL}/${product_id}`, {
+    //   headers: { Authorization: `Bearer ${token}` }
+    // })
+    // setProducts((prevProducts) =>
+    //   prevProducts.filter((product) => product.id !== product_id)
+    // );
   }
 
   return (
     <>
       <Container className='d-flex flex-wrap'>  
-      { products && 
+      { status === 'successful' && 
         products.map(product=>
           <div key={product.id} className="card col-md-6" style={{width: "18rem"}}>
             <div className="card-body">

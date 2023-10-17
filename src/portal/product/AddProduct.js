@@ -1,16 +1,13 @@
-import axios from 'axios';
 import React, { useState } from 'react'
-import { PRODUCTS_URL } from '../../constants/constant';
-import { Modal, Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-// import { Modal } from 'bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function AddProduct() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const token = useSelector(state => state.user.token);
-  const [show, setShow] = useState(false);
   const [product, setProduct] = useState({
     name: '',
     description: '',
@@ -24,75 +21,43 @@ export default function AddProduct() {
     setProduct({...product, [name]: newValue });
   }
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    try {
-      var data = JSON.stringify({ product });
-      var config = {
-        method: 'post',
-        url: PRODUCTS_URL,
-        headers: { 
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        data : data
-      };
-      await axios(config);
-      navigate('/products');
-    } catch (error) {
-      console.log(error);
-    }
+    console.log('TODO: Dispatch a new event to add product: ');
+    console.log(product);
+    // dispatch(addProduct({product: product,token: token}));
+    // navigate('/products');
   }
-
-  const handleShow = () => {setShow(true)};
-  const handleClose =() => {setShow(false)};
 
   return (
     <>
-    <Button variant="primary" onClick={handleShow}>
-        Add Prodcuts
-      </Button>
-      {/*  Do not close modal on escape key keyboard={false} */}
-      {/*  Do not close modal on click outside of modal backdrop="static" */}
-      <Modal show={show} onHide={handleClose} keyboard={false} backdrop="static">
-        <Modal.Header closeButton>
-          <Modal.Title className='fw-normal'>Add a New Product</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Container>
-            <Row>
-              <Col md={{span: 12}}>
-                <Form id='addProductForm' onSubmit={handleSubmit}>
-                  <FormGroup className="mb-3">
-                    <FormLabel htmlFor={'product-name'}>Name</FormLabel>
-                    <input type={'text'} className="form-control" id={'product-name'} name="name" onChange={handleAddProductChange} required />
-                  </FormGroup>
-                  <FormGroup className="mb-3">
-                    <FormLabel htmlFor={'product-description'}>Description</FormLabel>
-                    <input type={'text'} className="form-control" id={'product-description'} name="description" onChange={handleAddProductChange} required />
-                  </FormGroup>
-                  <FormGroup className="mb-3">
-                    <FormLabel htmlFor={'product-price'}>Price</FormLabel>
-                    <input type={'number'} className="form-control" id={'product-price'} name="price" onChange={handleAddProductChange} required />
-                  </FormGroup>
-                  <FormGroup className="mb-3">
-                    <FormLabel htmlFor={'product-availability'}></FormLabel>
-                    <Form.Check type="checkbox" label="Availability" name="availability" onChange={handleAddProductChange}/>
-                  </FormGroup>
-                </Form>
-              </Col>
-            </Row>
-          </Container>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Add to Product List
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Container>
+        <Row>
+          <Col md={{span: 12}}>
+            <Form id='addProductForm' onSubmit={handleSubmit}>
+              <FormGroup className="mb-3">
+                <FormLabel htmlFor={'product-name'}>Name</FormLabel>
+                <input type={'text'} className="form-control" id={'product-name'} name="name" onChange={handleAddProductChange} autoComplete='off' required />
+              </FormGroup>
+              <FormGroup className="mb-3">
+                <FormLabel htmlFor={'product-description'}>Description</FormLabel>
+                <input type={'text'} className="form-control" id={'product-description'} name="description" onChange={handleAddProductChange} autoComplete='off' required />
+              </FormGroup>
+              <FormGroup className="mb-3">
+                <FormLabel htmlFor={'product-price'}>Price</FormLabel>
+                <input type={'number'} className="form-control" id={'product-price'} name="price" onChange={handleAddProductChange} autoComplete='off' required />
+              </FormGroup>
+              <FormGroup className="mb-3">
+                <FormLabel htmlFor={'product-availability'}></FormLabel>
+                <Form.Check type="checkbox" label="Availability" id={'product-availability'} name="availability" onChange={handleAddProductChange}/>
+              </FormGroup>
+              <Button variant="primary" type="submit">
+                Add to Product List
+              </Button>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
     </>
   )
 }
