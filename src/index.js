@@ -15,38 +15,38 @@ import store from './store';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <StrictMode>
-  <Provider store={store}>
-    
-    <BrowserRouter>
-      <Routes>
-        <Route path='auth' element={<Auth />}>
-          <Route path='login' element={<Login />} />
-        </Route>
+      <Provider store={store}>
+        
+        <BrowserRouter>
+          <Routes>
+            <Route path='auth' element={<Auth />}>
+              <Route path='login' element={<Login />} />
+            </Route>
 
-        <Route path='/' element={<App />}>
-          <Route path='' element={ 
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route path='/products' element={ 
-              <ProtectedRoute>
-                <Product />
-              </ProtectedRoute>
-            }
-          />
-          <Route path='/products/new' element={ 
-              <ProtectedRoute>
-                <AddProduct />
-              </ProtectedRoute>
-            }
-          />
-        </Route>
-        <Route path='*' element={<h1>404! Invalid URL</h1>} />
-      </Routes>
-    </BrowserRouter>
-  </Provider>
+            <Route path='/' element={<App />}>
+              <Route path='' element={ 
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path='/products' element={ 
+                  <ProtectedRoute>
+                    <Product />
+                  </ProtectedRoute>
+                }
+              />
+              <Route path='/products/new' element={ 
+                  <ProtectedRoute>
+                    <AddProduct />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path='*' element={<h1>404! Invalid URL</h1>} />
+          </Routes>
+        </BrowserRouter>
+      </Provider>
     </StrictMode>
 
 );
