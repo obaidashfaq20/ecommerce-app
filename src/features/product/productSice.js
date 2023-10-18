@@ -21,9 +21,9 @@ export const productSlice = createSlice({
         state.errors = null;
 
       })
-      .addCase(fetchProducts.rejected, (state, action) => {
+      .addCase(fetchProducts.rejected, (state, {error}) => {
         state.status = 'failed';
-        state.errors = action.error.message;
+        state.errors = error.message;
       })
   },
 })

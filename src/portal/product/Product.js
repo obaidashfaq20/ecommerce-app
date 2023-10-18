@@ -12,7 +12,7 @@ export default function Product() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchProducts(token));
+    // dispatch(fetchProducts(token));
     // if you want to capture error here in classic way
     // we have to add some extra steps as createAyncThunk will always returned a resolved promise
     // OR we can use the approach where we can use extra error object in global state of that slice
@@ -25,6 +25,14 @@ export default function Product() {
     //   .then(unwrapResult)
     //   .then(originalPromiseResult => {})
     //   .catch(rejectedValueOfSerializedError => {})
+
+    // cancel dispatch if while resolving the promise user clicks on some other link then
+    // we don't need that specific reducer to complete is fetching, abort that
+    // [On unmounting i.e return function from useEffect we can cancel that createAsynThunk by using abort]
+    const promise = dispatch(fetchProducts(token));
+    return () => {
+      promise.abort();
+    }
 
   }, [token]);
 
