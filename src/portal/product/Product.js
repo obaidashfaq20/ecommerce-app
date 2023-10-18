@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import './product.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../features/product/productSice';
+import { unwrapResult } from '@reduxjs/toolkit';
 
 export default function Product() {
   const status = useSelector(state => state.product.status);
@@ -12,7 +13,8 @@ export default function Product() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // dispatch(fetchProducts(token));
+    // dispatch(fetchProducts(token));  
+    
     // if you want to capture error here in classic way
     // we have to add some extra steps as createAyncThunk will always returned a resolved promise
     // OR we can use the approach where we can use extra error object in global state of that slice

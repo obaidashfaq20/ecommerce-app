@@ -30,6 +30,13 @@ export const productSlice = createSlice({
 
 export default productSlice.reducer;
 
+// Create an async thunk for fetching projects
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async(token) => {
+  const response = await axios.get(PRODUCTS_URL,{
+    headers: {Authorization: `Bearer ${token}`}
+  });
+  return response.data;
+})
 
 const postProduct = async(product, token) => {
   var data = JSON.stringify({ product });
@@ -44,12 +51,3 @@ const postProduct = async(product, token) => {
   };
   await axios(config);
 }
-
-
-// Create an async thunk for fetching projects
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async(token) => {
-  const response = await axios.get(PRODUCTS_URL,{
-    headers: {Authorization: `Bearer ${token}`}
-  });
-  return response.data;
-})
