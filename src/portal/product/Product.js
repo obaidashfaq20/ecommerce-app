@@ -5,13 +5,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../features/product/productSice';
 
 export default function Product() {
-  const status = useSelector(state => state.product.status)
-  const products = useSelector(state => state.product.products)
+  const status = useSelector(state => state.product.status);
+  const error = useSelector(state => state.product.errors);
+  const products = useSelector(state => state.product.products);
   const token = useSelector(state => state.user.token);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchProducts(token));
+    // if you want to capture error here in classic way
+    // we have to add some extra steps as createAyncThunk will always returned a resolved promise
+    // OR we can use the approach where we can use extra error object in global state of that slice
+    // which keeps the track of that
+    // 
+    // We can capture error here using a function(unwrapResult) provided by @reduxjs/toolkit
+    // import { unwrapResult } from '@reduxjs/toolkit';
+    // 
+    // dispatch(fetchProducts(token)).
+    //   .then(unwrapResult)
+    //   .then(originalPromiseResult => {})
+    //   .catch(rejectedValueOfSerializedError => {})
+
   }, [token]);
 
   const handleShow = (product_id) => {
@@ -34,36 +48,40 @@ export default function Product() {
 
   return (
     <>
-      <Container className='d-flex flex-wrap'>  
-      { status === 'successful' && 
-        products.map(product=>
-          <div key={product.id} className="card col-md-6" style={{width: "18rem"}}>
-            <div className="card-body">
-              <h5 className="card-title">Product title: {product.name}</h5>
-              <p className="card-text">Product Description: {product.description}</p>
-              <p className={product.availability ? "text-success" : "text-danger"}>{product.availability ? 'In Stock' : 'Out of Stock'}</p>
-              <p className="h2 text-success">${product.price}</p>
+      <Container className='d-flex flex-wrap'>
+      { error && <h1>{error}</h1>}
+      { status === 'successful' ?
+        <>
+          { products.map(product=>
+            <div key={product.id} className="card col-md-6" style={{width: "18rem"}}>
+              <div className="card-body">
+                <h5 className="card-title">Product title: {product.name}</h5>
+                <p className="card-text">Product Description: {product.description}</p>
+                <p className={product.availability ? "text-success" : "text-danger"}>{product.availability ? 'In Stock' : 'Out of Stock'}</p>
+                <p className="h2 text-success">${product.price}</p>
 
-              <button 
-                id={`show_product_${product.id}`} 
-                onClick={()=>handleShow(product.id)} 
-                className="btn btn-info">Show
-              </button>
+                <button 
+                  id={`show_product_${product.id}`} 
+                  onClick={()=>handleShow(product.id)} 
+                  className="btn btn-info">Show
+                </button>
 
-              <button
-                id={`edit_product_${product.id}`}
-                onClick={()=>handleEdit(product.id)}
-                className="btn btn-primary">Edit
-              </button>
+                <button
+                  id={`edit_product_${product.id}`}
+                  onClick={()=>handleEdit(product.id)}
+                  className="btn btn-primary">Edit
+                </button>
 
-              <button
-                id={`delete_product_${product.id}`}
-                onClick={()=>handleDelete(product.id)}
-                className="btn btn-danger">Delete  
-              </button>
+                <button
+                  id={`delete_product_${product.id}`}
+                  onClick={()=>handleDelete(product.id)}
+                  className="btn btn-danger">Delete  
+                </button>
+              </div>
             </div>
-          </div>
-        )
+          ) }
+        </>: 
+          <h1>{console.log(error)}</h1>
       }
       </Container>
     </>

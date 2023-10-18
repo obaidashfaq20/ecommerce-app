@@ -18,6 +18,8 @@ export const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.status = 'successful';
         state.products = action.payload;
+        state.errors = null;
+
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.status = 'failed';
