@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Container } from 'react-bootstrap';
+import { Alert, Container } from 'react-bootstrap';
 import './product.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProducts } from '../../features/product/productSice';
@@ -59,7 +59,6 @@ export default function Product() {
   return (
     <>
       <Container className='d-flex flex-wrap'>
-      { error && <h1>{error}</h1>}
       { status === 'successful' ?
         <>
           { products.map(product=>
@@ -91,7 +90,9 @@ export default function Product() {
             </div>
           ) }
         </>: 
-          <h1>{console.log(error)}</h1>
+          <Alert key='danger' variant='danger'>
+              {error}
+            </Alert>
       }
       </Container>
     </>
