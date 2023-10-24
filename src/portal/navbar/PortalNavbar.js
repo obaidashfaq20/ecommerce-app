@@ -3,6 +3,7 @@ import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
+import { setShowNofificationCopiedModal } from '../../features/setting/settingSlice';
 
 export default function PortalNavbar() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export default function PortalNavbar() {
 
   const copyToken = () => {
     navigator.clipboard.writeText(token);
+    dispatch(setShowNofificationCopiedModal(true))
   }
 
   const handleLogout = () => {

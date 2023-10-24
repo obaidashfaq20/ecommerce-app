@@ -75,16 +75,14 @@ export const addProduct = createAsyncThunk(
   }
 )
 
-const postProduct = async(product, token) => {
-  var data = JSON.stringify({ product });
-  var config = {
-    method: 'post',
-    url: PRODUCTS_URL,
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    data: data
-  };
-  await axios(config);
-}
+// Create an async thunk for deleting products
+export const deleteProduct = createAsyncThunk(
+  'product/deleteProduct',
+  async(object) => {
+    const { product_id, token } = object;
+    const response = await axios.delete(`${PRODUCTS_URL}/${product_id}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    return response.data;
+  }
+)

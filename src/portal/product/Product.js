@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Container } from 'react-bootstrap';
+import { Alert, Button, Col, Container, Row, Toast } from 'react-bootstrap';
 import './product.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProducts } from '../../features/product/productSice';
+import { deleteProduct, fetchProducts } from '../../features/product/productSice';
 import { unwrapResult } from '@reduxjs/toolkit';
+import Notifier from '../../helpers/notifier';
 
 export default function Product() {
   const status = useSelector(state => state.product.status);
@@ -47,18 +48,13 @@ export default function Product() {
   }
 
   const handleDelete = async(product_id) => {
-    console.log('TODO: Delete product '+product_id);
-    // await axios.delete(`${PRODUCTS_URL}/${product_id}`, {
-    //   headers: { Authorization: `Bearer ${token}` }
-    // })
-    // setProducts((prevProducts) =>
-    //   prevProducts.filter((product) => product.id !== product_id)
-    // );
+    dispatch(deleteProduct({token: token, product_id: product_id}));
   }
 
   return (
     <>
       <Container className='d-flex flex-wrap'>
+      <Notifier />
       { status === 'successful' ?
         <>
           { products.map(product=>
