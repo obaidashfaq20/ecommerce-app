@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { addProduct } from '../../features/product/productSice';
 
 export default function AddProduct() {
   const navigate = useNavigate();
@@ -23,10 +24,8 @@ export default function AddProduct() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('TODO: Dispatch a new event to add product: ');
-    console.log(product);
-    // dispatch(addProduct({product: product,token: token}));
-    // navigate('/products');
+    dispatch(addProduct({token: token, product: product}));
+    navigate('/products');
   }
 
   return (
