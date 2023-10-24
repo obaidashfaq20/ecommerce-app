@@ -4,7 +4,7 @@ import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-b
 import { LOGIN_URL } from '../../constants/constant';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../../features/user/userSlice';
+import { login, postLoginReqesut } from '../../features/user/userSlice';
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -20,26 +20,27 @@ export default function Login() {
     buttonPointer.innerHTML = 'Please Wait...';
     buttonPointer.setAttribute('disabled', true);
 
-    axios.post(LOGIN_URL,  {user:formDataJson}).then((response)=>{
-      buttonPointer.innerHTML = 'Login';
-      buttonPointer.removeAttribute('disabled');
-      const data = response.data;
-      const authorizationHeader = response.headers.get('authorization');
-      const token = authorizationHeader.split(' ')[1];
+    // axios.post(LOGIN_URL,  {user:formDataJson}).then((response)=>{
+    //   buttonPointer.innerHTML = 'Login';
+    //   buttonPointer.removeAttribute('disabled');
+    //   const data = response.data;
+    //   const authorizationHeader = response.headers.get('authorization');
+    //   const token = authorizationHeader.split(' ')[1];
 
-      if(!token) {
-        alert('Unable to login! No token provided by Login API');
-        return;
-      }
-      dispatch(login({email: data.status.data.user.email, token: token}));
-      setTimeout(()=>{
-        navigate('/');
-      }, 500);
-    }).catch((error)=>{
-      buttonPointer.innerHTML = 'Login';
-      buttonPointer.removeAttribute('disabled');
-      alert("Maybe check the backend server! Error: "+error.message);
-    });
+    //   if(!token) {
+    //     alert('Unable to login! No token provided by Login API');
+    //     return;
+    //   }
+    //   dispatch(login({email: data.status.data.user.email, token: token}));
+    //   setTimeout(()=>{
+    //     navigate('/');
+    //   }, 500);
+    // }).catch((error)=>{
+    //   buttonPointer.innerHTML = 'Login';
+    //   buttonPointer.removeAttribute('disabled');
+    //   alert("Maybe check the backend server! Error: "+error.message);
+    // });
+    dispatch(postLoginReqesut(formDataJson))
   }
 
   useEffect(()=>{
