@@ -87,8 +87,8 @@ export default function Product() {
           ) }
         </>: 
           <Alert key='danger' variant='danger'>
-              {error}
-            </Alert>
+            {error}
+          </Alert>
       }
       </Container>
     </>
