@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Alert, Button, Col, Container, Row, Toast } from 'react-bootstrap';
+import React, { useEffect } from 'react'
+import { Alert, Container } from 'react-bootstrap';
 import './product.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, fetchProducts } from '../../features/product/productSice';
-import { unwrapResult } from '@reduxjs/toolkit';
+// import { unwrapResult } from '@reduxjs/toolkit';
 import Notifier from '../../helpers/notifier';
 
 export default function Product() {

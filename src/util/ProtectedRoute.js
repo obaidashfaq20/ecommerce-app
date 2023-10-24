@@ -19,7 +19,7 @@ export default function ProtectedRoute(props) {
 
   useEffect(()=>{
     checkUserToken();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, checkUserToken]);
 
   return (
     <>

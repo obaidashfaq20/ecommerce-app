@@ -1,10 +1,8 @@
-import axios from 'axios';
 import React, { useEffect } from 'react'
 import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap'
-import { LOGIN_URL } from '../../constants/constant';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, postLoginReqesut } from '../../features/user/userSlice';
+import { postLoginReqesut } from '../../features/user/userSlice';
 
 export default function Login() {
   const dispatch = useDispatch();
