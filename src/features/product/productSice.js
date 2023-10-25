@@ -38,6 +38,10 @@ export const productSlice = createSlice({
       .addCase(addProduct.rejected, (state, {error}) => {
         console.log(error.message)
       })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        const { product_id } = action.payload;
+        state.products = state.products.filter(product => product.id != product_id)
+      })
 
   },
 })
@@ -83,6 +87,6 @@ export const deleteProduct = createAsyncThunk(
     const response = await axios.delete(`${PRODUCTS_URL}/${product_id}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
-    return response.data;
+    return {response: response.data, product_id: product_id};
   }
 )

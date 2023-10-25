@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, fetchProducts } from '../../features/product/productSice';
 // import { unwrapResult } from '@reduxjs/toolkit';
 import Notifier from '../../helpers/notifier';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
 
 export default function Product() {
   const status = useSelector(state => state.product.status);
@@ -51,6 +53,14 @@ export default function Product() {
     dispatch(deleteProduct({token: token, product_id: product_id}));
   }
 
+  const fetchTimeAgo = (updatedAt) => {
+    TimeAgo.addLocale(en);
+    const timeAgo = new TimeAgo('en-US');
+    const inSeconds = new Date(updatedAt).getTime();
+    const minutesAgo = timeAgo.format(inSeconds - 60 * 1000);
+    return minutesAgo;
+  }
+
   return (
     <>
       <Container className='d-flex flex-wrap'>
@@ -64,6 +74,7 @@ export default function Product() {
                 <p className="card-text">Product Description: {product.description}</p>
                 <p className={product.availability ? "text-success" : "text-danger"}>{product.availability ? 'In Stock' : 'Out of Stock'}</p>
                 <p className="h2 text-success">${product.price}</p>
+                <p className="h5 text-primary">Updated: {fetchTimeAgo(product.updated_at)}</p>
 
                 <button 
                   id={`show_product_${product.id}`} 
