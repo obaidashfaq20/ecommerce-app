@@ -40,7 +40,7 @@ export default function AddProduct() {
               </FormGroup>
               <FormGroup className="mb-3">
                 <FormLabel htmlFor={'product-description'}>Description</FormLabel>
-                <input type={'text'} className="form-control" id={'product-description'} name="description" onChange={handleAddProductChange} autoComplete='off' required />
+                <input type={'text'} className="form-control" id={'product-description'} name="description" onChange={handleAddProductChange} autoComplete='off' minLength={22} required />
               </FormGroup>
               <FormGroup className="mb-3">
                 <FormLabel htmlFor={'product-price'}>Price</FormLabel>
