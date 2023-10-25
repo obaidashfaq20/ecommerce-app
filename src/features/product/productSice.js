@@ -40,7 +40,7 @@ export const productSlice = createSlice({
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
         const { product_id } = action.payload;
-        state.products = state.products.filter(product => product.id != product_id)
+        state.products = state.products.filter(product => product.id !== product_id)
       })
 
   },
