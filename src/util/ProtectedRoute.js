@@ -19,7 +19,8 @@ export default function ProtectedRoute(props) {
 
   useEffect(()=>{
     checkUserToken();
-  }, [isLoggedIn, checkUserToken]);
+    // eslint-disable-next-line 
+  }, [isLoggedIn]);
 
   return (
     <>

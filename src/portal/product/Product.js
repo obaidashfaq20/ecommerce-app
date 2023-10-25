@@ -36,7 +36,7 @@ export default function Product() {
     return () => {
       promise.abort();
     }
-
+    // eslint-disable-next-line 
   }, [token]);
 
   const handleShow = (product_id) => {
