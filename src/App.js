@@ -22,7 +22,7 @@ function App() {
 
   useEffect(()=>{
     checkUserToken();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, checkUserToken]);
 
   return(
     <>
