@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct } from '../../features/product/productSice';
+import productSice, { addProduct, editProduct } from '../../features/product/productSice';
 
 export default function AddProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [params, setParams] = useSearchParams();
+  const [editFlag, setEditFlag] = useState(false);
+  const [editProductId, setEditProductId] = useState(0); 
 
   const token = useSelector(state => state.user.token);
   const [product, setProduct] = useState({
@@ -16,6 +19,27 @@ export default function AddProduct() {
     availability: false
   });
 
+  useEffect(()=>{
+    const name = params.get('name');
+    if (name !== null) {
+      const id = params.get('id');
+      const description = params.get('desc');
+      const price = params.get('price');
+      const availability = params.get('availability');
+      // editProduct get request to /products/:id
+      const editProduct = {
+        name: name,
+        description: description,
+        price: price,
+        availability: false
+      }
+      setEditProductId(id);
+      setEditFlag(true);
+      setProduct(editProduct);
+    }
+    console.log(product)
+  }, []);
+
   const handleAddProductChange = event => {
     const { name, value, type, checked } = event.target;
     let newValue = type === 'checkbox' ? checked: value;
@@ -24,7 +48,8 @@ export default function AddProduct() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(addProduct({token: token, product: product}));
+    editFlag ? dispatch(editProduct({token: token, product: product, id: editProductId}))
+      : dispatch(addProduct({token: token, product: product}))
     navigate('/products');
   }
 
@@ -35,23 +60,23 @@ export default function AddProduct() {
           <Col md={{span: 12}}>
             <Form id='addProductForm' onSubmit={handleSubmit}>
               <FormGroup className="mb-3">
-                <FormLabel htmlFor={'product-name'}>Name</FormLabel>
-                <input type={'text'} className="form-control" id={'product-name'} name="name" onChange={handleAddProductChange} autoComplete='off' required />
+                <FormLabel htmlFor={'name'}>Name</FormLabel>
+                <input type={'text'} className="form-control" id={'product-name'} name="name" onChange={handleAddProductChange} value={product.name} autoComplete='off' required />
               </FormGroup>
               <FormGroup className="mb-3">
-                <FormLabel htmlFor={'product-description'}>Description</FormLabel>
-                <input type={'text'} className="form-control" id={'product-description'} name="description" onChange={handleAddProductChange} autoComplete='off' minLength={22} required />
+                <FormLabel htmlFor={'description'}>Description</FormLabel>
+                <input type={'text'} className="form-control" id={'product-description'} name="description" onChange={handleAddProductChange} value={product.description} autoComplete='off' minLength={22} required />
               </FormGroup>
               <FormGroup className="mb-3">
-                <FormLabel htmlFor={'product-price'}>Price</FormLabel>
-                <input type={'number'} className="form-control" id={'product-price'} name="price" onChange={handleAddProductChange} autoComplete='off' required />
+                <FormLabel htmlFor={'price'}>Price</FormLabel>
+                <input type={'number'} className="form-control" id={'price'} name="price" onChange={handleAddProductChange} value={product.price} autoComplete='off' required />
               </FormGroup>
               <FormGroup className="mb-3">
-                <FormLabel htmlFor={'product-availability'}></FormLabel>
-                <Form.Check type="checkbox" label="Availability" id={'product-availability'} name="availability" onChange={handleAddProductChange}/>
+                <FormLabel htmlFor={'availability'}></FormLabel>
+                <Form.Check type="checkbox" label="Availability" id={'availability'} name="availability" value={product.availability} onChange={handleAddProductChange}/>
               </FormGroup>
               <Button variant="primary" type="submit">
-                Add to Product List
+                { editFlag ? "Update" : "Add to Product List"}
               </Button>
             </Form>
           </Col>

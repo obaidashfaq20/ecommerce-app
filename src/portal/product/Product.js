@@ -2,11 +2,12 @@ import React, { useEffect } from 'react'
 import { Alert, Container } from 'react-bootstrap';
 import './product.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteProduct, fetchProducts } from '../../features/product/productSice';
+import productSice, { deleteProduct, fetchProducts } from '../../features/product/productSice';
 // import { unwrapResult } from '@reduxjs/toolkit';
 import Notifier from '../../helpers/notifier';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+import { useNavigate } from 'react-router-dom';
 
 export default function Product() {
   const status = useSelector(state => state.product.status);
@@ -14,6 +15,7 @@ export default function Product() {
   const products = useSelector(state => state.product.products);
   const token = useSelector(state => state.user.token);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // dispatch(fetchProducts(token));  
@@ -47,6 +49,8 @@ export default function Product() {
 
   const handleEdit = (product_id) => {
     console.log('TODO: Edit product '+product_id);
+    const product = products.find(product => product.id === product_id)
+    navigate(`/products/new?id=${product_id}&name=${product.name}&desc=${product.description}&price=${product.price}&availability=${product.availability}`);
   }
 
   const handleDelete = async(product_id) => {
