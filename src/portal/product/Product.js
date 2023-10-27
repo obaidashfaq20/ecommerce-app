@@ -68,7 +68,6 @@ export default function Product() {
   return (
     <>
       <Container className='d-flex flex-wrap'>
-      <Notifier />
       { status === 'successful' ?
         <>
           { products.map(product=>

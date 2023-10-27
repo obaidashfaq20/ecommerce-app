@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 import { setShowNofificationCopiedModal } from '../../features/setting/settingSlice';
+import Notifier from '../../helpers/notifier';
 
 export default function PortalNavbar() {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ export default function PortalNavbar() {
           </Navbar.Collapse>
         </Container>
       </Navbar>
+      <Notifier />
     </> 
   )
 }
