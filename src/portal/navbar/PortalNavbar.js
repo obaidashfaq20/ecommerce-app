@@ -23,6 +23,10 @@ export default function PortalNavbar() {
     navigate('/auth/login');
   }
 
+  const goToCart = () => {
+    navigate('/cart')
+  }
+
   return (
     <>
       <Navbar bg="light" expand="lg" className='navbar-light'>
@@ -39,6 +43,10 @@ export default function PortalNavbar() {
 
               <Nav.Link>
                 <button onClick={() => copyToken()} className='nav-link' >Copy token</button>
+              </Nav.Link>
+
+              <Nav.Link>
+                <button onClick={() => goToCart()} className='nav-link' >Cart</button>
               </Nav.Link>
 
               <Nav.Link>

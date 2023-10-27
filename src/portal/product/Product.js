@@ -2,9 +2,8 @@ import React, { useEffect } from 'react'
 import { Alert, Container } from 'react-bootstrap';
 import './product.css'
 import { useDispatch, useSelector } from 'react-redux';
-import productSice, { deleteProduct, fetchProducts } from '../../features/product/productSice';
+import { deleteProduct, fetchProducts } from '../../features/product/productSice';
 // import { unwrapResult } from '@reduxjs/toolkit';
-import Notifier from '../../helpers/notifier';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import { useNavigate } from 'react-router-dom';
@@ -50,7 +49,8 @@ export default function Product() {
   const handleEdit = (product_id) => {
     console.log('TODO: Edit product '+product_id);
     const product = products.find(product => product.id === product_id)
-    navigate(`/products/new?id=${product_id}&name=${product.name}&desc=${product.description}&price=${product.price}&availability=${product.availability}`);
+    const query_params = `id=${product_id}&name=${product.name}&desc=${product.description}&price=${product.price}&availability=${product.availability}`
+    navigate(`/products/new?${query_params}`);
   }
 
   const handleDelete = async(product_id) => {
