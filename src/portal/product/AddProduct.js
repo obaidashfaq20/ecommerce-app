@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import productSice, { addProduct, editProduct } from '../../features/product/productSice';
+import { addProduct, editProduct } from '../../features/product/productSice';
 
 export default function AddProduct() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [params, setParams] = useSearchParams();
+  const [params] = useSearchParams();
   const [editFlag, setEditFlag] = useState(false);
   const [editProductId, setEditProductId] = useState(0); 
 
@@ -31,13 +31,13 @@ export default function AddProduct() {
         name: name,
         description: description,
         price: price,
-        availability: false
+        availability: availability
       }
       setEditProductId(id);
       setEditFlag(true);
       setProduct(editProduct);
     }
-    console.log(product)
+  // eslint-disable-next-line
   }, []);
 
   const handleAddProductChange = event => {
