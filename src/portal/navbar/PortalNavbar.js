@@ -12,6 +12,7 @@ export default function PortalNavbar() {
 
   const userEmail = useSelector(state => state.user.email);
   const token = useSelector(state => state.user.token);
+  const cart = useSelector(state => state.cart.items);
 
   const copyToken = () => {
     navigator.clipboard.writeText(token);
@@ -29,7 +30,7 @@ export default function PortalNavbar() {
 
   return (
     <>
-      <Navbar bg="light" expand="lg" className='navbar-light'>
+      <Navbar bg="light" expand="lg" className='navbar-light sticky-top'>
         <Container>
           <Navbar.Brand>
             <Link className='nav-link' to='/'> CRUD Prodcuts | Portal</Link>
@@ -40,13 +41,10 @@ export default function PortalNavbar() {
               <Link to='products/new' className="nav-link mt-2"> ADD a product </Link>
 
               <Link to='/products' className="nav-link mt-2">Prodcuts</Link>
+              <Link to='/cart' className="nav-link mt-2">Cart <strong>{cart.length}</strong></Link>
 
               <Nav.Link>
                 <button onClick={() => copyToken()} className='nav-link' >Copy token</button>
-              </Nav.Link>
-
-              <Nav.Link>
-                <button onClick={() => goToCart()} className='nav-link' >Cart</button>
               </Nav.Link>
 
               <Nav.Link>

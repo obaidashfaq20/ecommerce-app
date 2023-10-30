@@ -45,10 +45,6 @@ export default function Product() {
     // eslint-disable-next-line 
   }, [token]);
 
-  const handleShow = (product_id) => {
-    console.log('TODO: Showing details for product '+product_id); 
-  }
-
   const handleEdit = (product_id) => {
     console.log('TODO: Edit product '+product_id);
     const product = products.find(product => product.id === product_id)
@@ -87,12 +83,6 @@ export default function Product() {
                 <p className="h2 text-success">${product.price}</p>
                 <p className="h5 text-primary">Updated: {fetchTimeAgo(product.updated_at)}</p>
 
-                <button 
-                  id={`show_product_${product.id}`} 
-                  onClick={()=>handleShow(product.id)} 
-                  className="btn btn-info">Show
-                </button>
-
                 <button
                   id={`edit_product_${product.id}`}
                   onClick={()=>handleEdit(product.id)}
@@ -105,11 +95,13 @@ export default function Product() {
                   className="btn btn-danger"><RiDeleteBinLine />
                 </button>
 
-                <button
-                  id={`add_to_cart_product_${product.id}`}
-                  onClick={()=>handleAddToCart(product.id)}
-                  className="btn btn-link"> <IoMdAdd />
-                </button>
+                { product.availability && 
+                  <button
+                    id={`add_to_cart_product_${product.id}`}
+                    onClick={()=>handleAddToCart(product.id)}
+                    className="btn btn-link"> <IoMdAdd /> Add to Cart
+                  </button>
+                }
               </div>
             </div>
           ) }
