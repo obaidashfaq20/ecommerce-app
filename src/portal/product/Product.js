@@ -7,6 +7,9 @@ import { deleteProduct, fetchProducts } from '../../features/product/productSice
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 import { useNavigate } from 'react-router-dom';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { IoMdAdd } from 'react-icons/io';
+import { addToCart } from '../../features/cart/cartSlice';
 
 export default function Product() {
   const status = useSelector(state => state.product.status);
@@ -57,6 +60,11 @@ export default function Product() {
     dispatch(deleteProduct({token: token, product_id: product_id}));
   }
 
+  const handleAddToCart = (product_id) => {
+    const product = products.find(product => product.id === product_id)
+    dispatch(addToCart({product: product, token: token}))
+  }
+
   const fetchTimeAgo = (updatedAt) => {
     TimeAgo.addLocale(en);
     const timeAgo = new TimeAgo('en-US');
@@ -94,7 +102,13 @@ export default function Product() {
                 <button
                   id={`delete_product_${product.id}`}
                   onClick={()=>handleDelete(product.id)}
-                  className="btn btn-danger">Delete  
+                  className="btn btn-danger"><RiDeleteBinLine />
+                </button>
+
+                <button
+                  id={`add_to_cart_product_${product.id}`}
+                  onClick={()=>handleAddToCart(product.id)}
+                  className="btn btn-link"> <IoMdAdd />
                 </button>
               </div>
             </div>
