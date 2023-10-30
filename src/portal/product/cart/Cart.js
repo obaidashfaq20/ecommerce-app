@@ -1,19 +1,12 @@
-import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchProducts } from '../../../features/product/productSice';
+import React from 'react'
+import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 
 export default function Cart() {
   const cart = useSelector(state => state.cart.items);
-  const token = useSelector(state => state.user.token);
-  const status = useSelector(state => state.product.status);
-  const products = useSelector(state => state.product.products);
-  const dispatch = useDispatch();
+//  const token = useSelector(state => state.user.token);
+  //const dispatch = useDispatch();
 
-  useEffect(()=>{
-    dispatch(fetchProducts(token));
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <div className='container'>
