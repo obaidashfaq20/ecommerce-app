@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Button, Col, Container, Form, FormGroup, FormLabel, Row } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { postLoginReqesut } from '../../features/user/userSlice';
 
@@ -17,27 +17,6 @@ export default function Login() {
     const buttonPointer = document.querySelector('#login-btn');
     buttonPointer.innerHTML = 'Please Wait...';
     buttonPointer.setAttribute('disabled', true);
-
-    // axios.post(LOGIN_URL,  {user:formDataJson}).then((response)=>{
-    //   buttonPointer.innerHTML = 'Login';
-    //   buttonPointer.removeAttribute('disabled');
-    //   const data = response.data;
-    //   const authorizationHeader = response.headers.get('authorization');
-    //   const token = authorizationHeader.split(' ')[1];
-
-    //   if(!token) {
-    //     alert('Unable to login! No token provided by Login API');
-    //     return;
-    //   }
-    //   dispatch(login({email: data.status.data.user.email, token: token}));
-    //   setTimeout(()=>{
-    //     navigate('/');
-    //   }, 500);
-    // }).catch((error)=>{
-    //   buttonPointer.innerHTML = 'Login';
-    //   buttonPointer.removeAttribute('disabled');
-    //   alert("Maybe check the backend server! Error: "+error.message);
-    // });
     dispatch(postLoginReqesut(formDataJson))
   }
 
@@ -66,6 +45,7 @@ export default function Login() {
             </Form>
           </Col>
         </Row>
+        <Link to="/auth/signup">Don't have an account check here</Link>
       </Container>
     </>
   )
