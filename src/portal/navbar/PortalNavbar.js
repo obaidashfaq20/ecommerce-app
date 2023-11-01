@@ -24,10 +24,6 @@ export default function PortalNavbar() {
     navigate('/auth/login');
   }
 
-  const goToCart = () => {
-    navigate('/cart')
-  }
-
   return (
     <>
       <Navbar bg="light" expand="lg" className='navbar-light sticky-top'>
