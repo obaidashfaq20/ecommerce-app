@@ -30,21 +30,6 @@ export default function Cart() {
             <Link to='/products'>Product List</Link>
           </h1>
         : <>
-            {/* <h1>Total Billable Charges: ${totalCost()}</h1>
-            {cart.map(product =>
-              <div key={product.id} className="card col-md-12" style={{width: "100%"}}>
-                {product.name}
-                {product.description}
-                {product.price}
-                <Button
-                  id={`remove_from_cart_product_${product.id}`}
-                  onClick={()=> removeFromTheCart(product.id)}
-                  className="btn btn-link"
-                >
-                  Remove
-                </Button>
-              </div>
-            )} */}
             <h3>Total Billable Charges: ${totalCost()}</h3>
             <ListGroup  as="ol" numbered>
               { cart.map(product =>
