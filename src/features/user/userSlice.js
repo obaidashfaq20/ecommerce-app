@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { LOGIN_URL } from "../../constants/constant";
+import { LOGIN_URL, SIGNUP_URL } from "../../constants/constant";
 
 export const userSlice = createSlice({
   name: 'user',
@@ -35,18 +35,32 @@ export const userSlice = createSlice({
     builder
       .addCase(postLoginReqesut.fulfilled, (state, {payload}) => {
         const { user } = payload.response.status.data;
-        state.email = user.email
+        state.email = user.email;
         state.token = payload.token;
         state.isLoggedIn = true;
-        localStorage.clear();
-        localStorage.setItem('user-email', state.email);
-        localStorage.setItem('user-token', state.token);
+        storeInLocalStorage(state.email, state.token);
       })
       .addCase(postLoginReqesut.pending, (state) => {
         state.isLoggedIn = false;
       })
       .addCase(postLoginReqesut.rejected, (state, object) => {
         console.log({object})
+      })
+      .addCase(postSignupRequest.fulfilled, (state, {payload}) => {
+        const user = payload.response.data;
+        state.email = user.email;
+        state.token = payload.token;
+        state.isLoggedIn = true;
+        storeInLocalStorage(state.email, state.token);
+        
+      })
+      .addCase(postSignupRequest.pending, (state) => {
+        state.isLoggedIn = false;
+      })
+      .addCase(postSignupRequest.rejected, (state, object) => {
+        const {error} = object;
+        state.isLoggedIn = false;
+        alert(`${error.name}: ${error.message}`)
       })
   }
 })
@@ -65,3 +79,21 @@ export const postLoginReqesut = createAsyncThunk(
     return {response: response.data, token: token};
   }
 );
+
+export const postSignupRequest = createAsyncThunk(
+  'user/signup',
+  async(user) => {
+    const response = await axios.post(SIGNUP_URL, {
+      user
+    });
+    const authorizationHeader = response.headers.get('authorization');
+    const token = authorizationHeader.split(' ')[1];
+    return {response: response.data, token: token};
+  }
+);
+
+const storeInLocalStorage = (email, token) => {
+  localStorage.clear();
+  localStorage.setItem('user-email', email);
+  localStorage.setItem('user-token', token);
+}

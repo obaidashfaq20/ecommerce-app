@@ -12,6 +12,7 @@ export const productSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // Fetch product promise
       .addCase(fetchProducts.pending, state => {
         state.status = 'loading';
       })
@@ -25,9 +26,11 @@ export const productSlice = createSlice({
         state.errors = error.message;
       })
 
+      // add product promise
       .addCase(addProduct.fulfilled, (state, action) => {
         state.status = 'successful';
-        console.log(action)
+        const product = action.payload;
+        state.products.push(product);
         // state.products = action.payload;
         // state.errors = null;
       })
@@ -38,9 +41,20 @@ export const productSlice = createSlice({
       .addCase(addProduct.rejected, (state, {error}) => {
         console.log(error.message)
       })
+
+      // delete product promise
       .addCase(deleteProduct.fulfilled, (state, action) => {
         const { product_id } = action.payload;
         state.products = state.products.filter(product => product.id !== product_id)
+      })
+
+      // edit product promise
+      .addCase(editProduct.fulfilled, (state, action) => {
+        const product = action.payload;
+        console.log(product)
+      })
+      .addCase(editProduct.rejected, (state, error) => {
+        console.log(error)
       })
 
   },
@@ -68,6 +82,26 @@ export const addProduct = createAsyncThunk(
     var config = {
       method: 'post',
       url: PRODUCTS_URL,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+    const response = await axios(config);
+    return response.data;
+  }
+)
+
+// Create an async thunk for editing a product
+export const editProduct = createAsyncThunk(
+  'product/editProduct',
+  async(object) => {
+    const { id, product, token } = object;
+    const data = JSON.stringify({ product });
+    const config = {
+      method: 'patch',
+      url: `${PRODUCTS_URL}/${id}`,
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'

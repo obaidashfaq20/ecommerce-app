@@ -14,7 +14,7 @@ export default function Notifier() {
           show={showNotificationCopiedModal}
           delay={3000}
           autohide
-          bg='success'
+          className='container'
         >
           <Toast.Header>
             <img
@@ -23,9 +23,9 @@ export default function Notifier() {
               alt=""
             />
             <strong className="me-auto">Token</strong>
-            <small>11 mins ago</small>
+            <small>now</small>
           </Toast.Header>
-          <Toast.Body className='success'>Token Copied to Clipboard</Toast.Body>
+          <Toast.Body>Token Copied to Clipboard!</Toast.Body>
         </Toast>
       </Col>
     </Row>

@@ -4,9 +4,12 @@ import './product.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, fetchProducts } from '../../features/product/productSice';
 // import { unwrapResult } from '@reduxjs/toolkit';
-import Notifier from '../../helpers/notifier';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+import { useNavigate } from 'react-router-dom';
+import { RiDeleteBinLine } from 'react-icons/ri';
+import { IoMdAdd } from 'react-icons/io';
+import { addToCart } from '../../features/cart/cartSlice';
 
 export default function Product() {
   const status = useSelector(state => state.product.status);
@@ -14,6 +17,7 @@ export default function Product() {
   const products = useSelector(state => state.product.products);
   const token = useSelector(state => state.user.token);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // dispatch(fetchProducts(token));  
@@ -41,16 +45,20 @@ export default function Product() {
     // eslint-disable-next-line 
   }, [token]);
 
-  const handleShow = (product_id) => {
-    console.log('TODO: Showing details for product '+product_id); 
-  }
-
   const handleEdit = (product_id) => {
     console.log('TODO: Edit product '+product_id);
+    const product = products.find(product => product.id === product_id)
+    const query_params = `id=${product_id}&name=${product.name}&desc=${product.description}&price=${product.price}&availability=${product.availability}`
+    navigate(`/products/new?${query_params}`);
   }
 
   const handleDelete = async(product_id) => {
     dispatch(deleteProduct({token: token, product_id: product_id}));
+  }
+
+  const handleAddToCart = (product_id) => {
+    const product = products.find(product => product.id === product_id)
+    dispatch(addToCart({product: product, token: token}))
   }
 
   const fetchTimeAgo = (updatedAt) => {
@@ -64,7 +72,6 @@ export default function Product() {
   return (
     <>
       <Container className='d-flex flex-wrap'>
-      <Notifier />
       { status === 'successful' ?
         <>
           { products.map(product=>
@@ -76,12 +83,6 @@ export default function Product() {
                 <p className="h2 text-success">${product.price}</p>
                 <p className="h5 text-primary">Updated: {fetchTimeAgo(product.updated_at)}</p>
 
-                <button 
-                  id={`show_product_${product.id}`} 
-                  onClick={()=>handleShow(product.id)} 
-                  className="btn btn-info">Show
-                </button>
-
                 <button
                   id={`edit_product_${product.id}`}
                   onClick={()=>handleEdit(product.id)}
@@ -91,8 +92,16 @@ export default function Product() {
                 <button
                   id={`delete_product_${product.id}`}
                   onClick={()=>handleDelete(product.id)}
-                  className="btn btn-danger">Delete  
+                  className="btn btn-danger"><RiDeleteBinLine />
                 </button>
+
+                { product.availability && 
+                  <button
+                    id={`add_to_cart_product_${product.id}`}
+                    onClick={()=>handleAddToCart(product.id)}
+                    className="btn btn-link"> <IoMdAdd /> Add to Cart
+                  </button>
+                }
               </div>
             </div>
           ) }

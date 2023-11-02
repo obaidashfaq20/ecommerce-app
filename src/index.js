@@ -11,6 +11,8 @@ import Product from './portal/product/Product';
 import AddProduct from './portal/product/AddProduct';
 import { Provider } from 'react-redux';
 import store from './store';
+import Cart from './portal/product/cart/Cart';
+import Signup from './auth/signup/Signup';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +22,7 @@ root.render(
         <Routes>
           <Route path='auth' element={<Auth />}>
             <Route path='login' element={<Login />} />
+            <Route path='signup' element={<Signup />} />
           </Route>
 
           <Route path='/' element={<App />}>
@@ -38,6 +41,12 @@ root.render(
             <Route path='/products/new' element={ 
                 <ProtectedRoute>
                   <AddProduct />
+                </ProtectedRoute>
+              }
+            />
+            <Route path='/cart' element={
+                <ProtectedRoute>
+                  <Cart />
                 </ProtectedRoute>
               }
             />
