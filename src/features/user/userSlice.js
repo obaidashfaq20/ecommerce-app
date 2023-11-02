@@ -14,9 +14,7 @@ export const userSlice = createSlice({
       state.email = user.payload.email;
       state.token = user.payload.token;
       state.isLoggedIn = true;
-      localStorage.clear();
-      localStorage.setItem('user-email', state.email);
-      localStorage.setItem('user-token', state.token);
+      storeInLocalStorage(state.email, state.token);
     },
     logout: (state) => {
       state.email = '';

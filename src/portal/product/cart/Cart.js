@@ -3,6 +3,8 @@ import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { removeFromCart } from '../../../features/cart/cartSlice';
+import Badge from 'react-bootstrap/Badge';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function Cart() {
   const cart = useSelector(state => state.cart.items);
@@ -28,7 +30,7 @@ export default function Cart() {
             <Link to='/products'>Product List</Link>
           </h1>
         : <>
-            <h1>Total Billable Charges: ${totalCost()}</h1>
+            {/* <h1>Total Billable Charges: ${totalCost()}</h1>
             {cart.map(product =>
               <div key={product.id} className="card col-md-12" style={{width: "100%"}}>
                 {product.name}
@@ -42,7 +44,27 @@ export default function Cart() {
                   Remove
                 </Button>
               </div>
-            )}
+            )} */}
+            <h3>Total Billable Charges: ${totalCost()}</h3>
+            <ListGroup  as="ol" numbered>
+              { cart.map(product =>
+                  <ListGroup.Item
+                    as="li"
+                    key={product.id}
+                    className="d-flex justify-content-between align-items-start"
+                  >
+                    <div className="ms-2 me-auto">
+                      <div className="fw-bold">{product.name}</div>
+                      {product.description}
+                    </div>
+                    <div className='me-auto'>
+                      <p className="h2 text-success">${product.price}</p>
+                    </div>
+                    <Button onClick={()=> removeFromTheCart(product.id)}>Remove from the cart</Button>
+
+                  </ListGroup.Item>
+              )}
+            </ListGroup>
           </>
       }
     </div>
