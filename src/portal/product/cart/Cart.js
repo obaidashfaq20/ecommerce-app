@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { removeFromCart } from '../../../features/cart/cartSlice';
-import Badge from 'react-bootstrap/Badge';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function Cart() {
