@@ -71,7 +71,7 @@ export default function Product() {
 
   return (
     <>
-      <Container className='d-flex flex-wrap'>
+      <Container className='d-flex flex-wrap' style={{paddingBottom: '100px'}}>
       { status === 'successful' ?
         <>
           { products.map(product=>
