@@ -43,6 +43,8 @@ export const userSlice = createSlice({
       })
       .addCase(postLoginReqesut.rejected, (state, object) => {
         console.log({object})
+        alert(`${object.error.name}: Backend is not running`)
+        window.location.reload(false);
       })
       .addCase(postSignupRequest.fulfilled, (state, {payload}) => {
         const user = payload.response.data;
