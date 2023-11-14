@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { removeFromCart } from '../../../features/cart/cartSlice';
+import { getCartItems, removeFromCart } from '../../../features/cart/cartSlice';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function Cart() {
@@ -20,6 +20,10 @@ export default function Cart() {
     cart.map(product => totalPrice+=Number(product.price));
     return totalPrice;
   }
+
+  useEffect(()=>{
+    dispatch(getCartItems(token));
+  }, [token])
 
   return (
     <div className='container'>
