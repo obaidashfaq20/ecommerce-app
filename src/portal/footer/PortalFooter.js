@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
 import { BASE_URL } from '../../constants/constant'
 
 export default function PortalFooter() {
@@ -11,7 +11,7 @@ export default function PortalFooter() {
           &copy; React Auth Demo -2023 | Portal
           </div>
           <div>
-            <a href={ `${BASE_URL}/api-docs`} target="_blank">Go to API Docs</a>
+            <a href={ `${BASE_URL}/api-docs`} target="_blank" rel="noopener noreferrer">Go to API Docs</a>
           </div>
         </Container>
       </footer>
