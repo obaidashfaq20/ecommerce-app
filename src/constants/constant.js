@@ -5,3 +5,5 @@ export const LOGOUT_URL = `${BASE_URL}/logout`;
 export const PRODUCTS_URL = `${BASE_URL}/products`;
 export const CART_URL = `${BASE_URL}/carts`;
 export const CART_ITEMS_URL = `${BASE_URL}/cart/products`;
+export const REMOVE_CART_ITEMS_URL = `${BASE_URL}/cart_items`;
+export const ADD_TO_CART = `${BASE_URL}/cart_item/add_to_cart`;

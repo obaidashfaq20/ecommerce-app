@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { getCartItems, removeFromCart } from '../../../features/cart/cartSlice';
+import { getCartItems, removeCartItem } from '../../../features/cart/cartSlice';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function Cart() {
@@ -11,8 +11,7 @@ export default function Cart() {
   const dispatch = useDispatch();
 
   const removeFromTheCart = (product_id) => {
-    console.log(product_id);
-    dispatch(removeFromCart({product_id: product_id, token: token}))
+    dispatch(removeCartItem({product_id: product_id, token: token}))
   };
 
   const totalCost = () => {
@@ -49,7 +48,7 @@ export default function Cart() {
                     <div className='me-auto'>
                       <p className="h2 text-success">${product.price}</p>
                     </div>
-                    <Button onClick={()=> removeFromTheCart(product.id)}>Remove from the cart</Button>
+                    <Button className="btn-danger" onClick={()=> removeFromTheCart(product.id)}>Remove from the cart</Button>
 
                   </ListGroup.Item>
               )}
