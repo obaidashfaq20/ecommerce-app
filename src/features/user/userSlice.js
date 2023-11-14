@@ -14,9 +14,7 @@ export const userSlice = createSlice({
       state.email = user.payload.email;
       state.token = user.payload.token;
       state.isLoggedIn = true;
-      localStorage.clear();
-      localStorage.setItem('user-email', state.email);
-      localStorage.setItem('user-token', state.token);
+      storeInLocalStorage(state.email, state.token);
     },
     logout: (state) => {
       state.email = '';
@@ -45,6 +43,8 @@ export const userSlice = createSlice({
       })
       .addCase(postLoginReqesut.rejected, (state, object) => {
         console.log({object})
+        alert(`${object.error.name}: Backend is not running`)
+        window.location.reload(false);
       })
       .addCase(postSignupRequest.fulfilled, (state, {payload}) => {
         const user = payload.response.data;

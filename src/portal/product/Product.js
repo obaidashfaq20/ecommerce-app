@@ -71,7 +71,7 @@ export default function Product() {
 
   return (
     <>
-      <Container className='d-flex flex-wrap'>
+      <Container className='d-flex flex-wrap' style={{paddingBottom: '100px'}}>
       { status === 'successful' ?
         <>
           { products.map(product=>
@@ -95,13 +95,13 @@ export default function Product() {
                   className="btn btn-danger"><RiDeleteBinLine />
                 </button>
 
-                { product.availability && 
-                  <button
-                    id={`add_to_cart_product_${product.id}`}
-                    onClick={()=>handleAddToCart(product.id)}
-                    className="btn btn-link"> <IoMdAdd /> Add to Cart
-                  </button>
-                }
+                <button
+                  id={`add_to_cart_product_${product.id}`}
+                  onClick={()=>handleAddToCart(product.id)}
+                  className="btn btn-link"
+                  disabled={!product.availability}  
+                > <IoMdAdd /> Add to Cart
+                </button>
               </div>
             </div>
           ) }
