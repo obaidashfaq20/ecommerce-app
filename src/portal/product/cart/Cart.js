@@ -23,6 +23,7 @@ export default function Cart() {
 
   useEffect(()=>{
     dispatch(getCartItems(token));
+    // eslint-disable-next-line 
   }, [token])
 
   return (
