@@ -53,6 +53,9 @@ export default function Cart() {
                   </ListGroup.Item>
               )}
             </ListGroup>
+            <div className='d-flex justify-content-center mt-5'>
+            <Button className="btn-primary" size='lg' onClick={()=> console.log('Payment')}>Proceed to Payment</Button>
+            </div>
           </>
       }
     </div>
