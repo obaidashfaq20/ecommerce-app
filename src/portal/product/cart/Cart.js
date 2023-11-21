@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { getCartItems, removeCartItem } from '../../../features/cart/cartSlice';
 import ListGroup from 'react-bootstrap/ListGroup';
+import PaymentContainer from '../../payment/PaymentContainer';
 
 export default function Cart() {
   const cart = useSelector(state => state.cart.items);
@@ -53,9 +54,7 @@ export default function Cart() {
                   </ListGroup.Item>
               )}
             </ListGroup>
-            <div className='d-flex justify-content-center mt-5'>
-            <Button className="btn-primary" size='lg' onClick={()=> console.log('Payment')}>Proceed to Payment</Button>
-            </div>
+            <PaymentContainer payment_amount={totalCost()}/>
           </>
       }
     </div>
