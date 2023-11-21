@@ -1,5 +1,4 @@
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { useState } from 'react';
 import { PAYMENT_INTENT } from '../../constants/constant';
 import { useSelector } from 'react-redux';
 import { Button } from 'react-bootstrap';
@@ -7,7 +6,6 @@ import { Button } from 'react-bootstrap';
 const PaymentForm = ({ paymentAmount }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [clientSecret, setClientSecret] = useState('');
   const token = useSelector(state => state.user.token);
 
   const handleSubmit = async (event) => {
