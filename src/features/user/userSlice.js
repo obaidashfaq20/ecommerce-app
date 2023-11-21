@@ -6,6 +6,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     email: localStorage.getItem('user-email') ||'',
+    name: localStorage.getItem('user-name') ||'',
     token: localStorage.getItem('user-token')||'',
     isLoggedIn: localStorage.getItem('user-email') ? true : false,
   },
@@ -34,9 +35,10 @@ export const userSlice = createSlice({
       .addCase(postLoginReqesut.fulfilled, (state, {payload}) => {
         const { user } = payload.response.status.data;
         state.email = user.email;
+        state.name = user.name;
         state.token = payload.token;
         state.isLoggedIn = true;
-        storeInLocalStorage(state.email, state.token);
+        storeInLocalStorage(state.email, state.token, state.name);
       })
       .addCase(postLoginReqesut.pending, (state) => {
         state.isLoggedIn = false;
@@ -49,9 +51,10 @@ export const userSlice = createSlice({
       .addCase(postSignupRequest.fulfilled, (state, {payload}) => {
         const user = payload.response.data;
         state.email = user.email;
+        state.name = user.name;
         state.token = payload.token;
         state.isLoggedIn = true;
-        storeInLocalStorage(state.email, state.token);
+        storeInLocalStorage(state.email, state.token, state.name);
         
       })
       .addCase(postSignupRequest.pending, (state) => {
@@ -92,8 +95,9 @@ export const postSignupRequest = createAsyncThunk(
   }
 );
 
-const storeInLocalStorage = (email, token) => {
+const storeInLocalStorage = (email, token, name) => {
   localStorage.clear();
   localStorage.setItem('user-email', email);
   localStorage.setItem('user-token', token);
+  localStorage.setItem('user-name', name);
 }
