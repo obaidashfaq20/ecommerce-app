@@ -7,11 +7,14 @@ const PaymentForm = ({ paymentAmount }) => {
   const stripe = useStripe();
   const elements = useElements();
   const token = useSelector(state => state.user.token);
+  const email = useSelector(state => state.user.email);
+  const name = useSelector(state => state.user.name);
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const centsToDollars = paymentAmount * 100;
-    const response = await fetch(`${PAYMENT_INTENT}/?amount=${centsToDollars}`, {
+    const response = await fetch(`${PAYMENT_INTENT}/?amount=${centsToDollars}&email=${email}&name=${name}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
