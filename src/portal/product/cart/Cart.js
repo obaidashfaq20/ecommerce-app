@@ -8,7 +8,7 @@ import PaymentContainer from '../../payment/PaymentContainer';
 
 export default function Cart() {
   const cart = useSelector(state => state.cart.items);
-   const token = useSelector(state => state.user.token);
+  const token = useSelector(state => state.user.token);
   const dispatch = useDispatch();
 
   const removeFromTheCart = (product_id) => {
