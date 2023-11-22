@@ -1,7 +1,7 @@
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { PAYMENT_INTENT } from '../../constants/constant';
 import { useSelector } from 'react-redux';
-import { Button } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 const PaymentForm = ({ paymentAmount }) => {
   const stripe = useStripe();
@@ -28,7 +28,12 @@ const PaymentForm = ({ paymentAmount }) => {
     const result = await stripe.confirmCardPayment(data.client_secret, {
       payment_method: {
         card: elements.getElement(CardElement),
+        billing_details: {
+          name: name,
+          email: email,
+        },
       },
+      
     });
 
     if (result.error) {
@@ -40,12 +45,12 @@ const PaymentForm = ({ paymentAmount }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement />
+    <Form onSubmit={handleSubmit}>
+      <CardElement className='form-control'/>
       <div className='d-flex justify-content-center mt-5'>
         <Button type="submit" className="btn-primary" size='lg'>Proceed to Payment</Button>
       </div>
-    </form>
+    </Form>
   );
 };
 

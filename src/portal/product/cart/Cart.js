@@ -30,7 +30,7 @@ export default function Cart() {
     <div className='container'>
       { cart.length === 0 ?
           <h1>
-            Cart is empty, add some items from
+            Cart is empty, add some items from&nbsp;
             <Link to='/products'>Product List</Link>
           </h1>
         : <>
