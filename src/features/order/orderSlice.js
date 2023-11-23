@@ -38,8 +38,7 @@ export const getOrders = createAsyncThunk(
 export const createOrder = createAsyncThunk(
   'order/createOrders',
   async(_obj) => {
-    const { object, token } = _obj
-    var data = JSON.stringify({ object });
+    const { token } = _obj
     var config = {
       method: 'post',
       url: ORDERS_URL,

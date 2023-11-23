@@ -12,7 +12,8 @@ export default function Order() {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    dispatch(getOrders(token))
+    dispatch(getOrders(token));
+    // eslint-disable-next-line
   }, []);
 
   return (
