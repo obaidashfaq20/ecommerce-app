@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getOrders } from '../../features/order/orderSlice';
 import { Link } from 'react-router-dom';
 import { fetchTimeAgo } from '../../util/fetchTimeAgo';
+import { getOrderItems } from '../../features/order_item/orderItemSlice';
 
 export default function Order() {
   const token = useSelector(state => state.user.token);
@@ -15,6 +16,11 @@ export default function Order() {
     dispatch(getOrders(token));
     // eslint-disable-next-line
   }, []);
+
+  const getOrderDetails = (order_id) => {
+    console.log(`Get order items for order[${order_id}]`);
+    dispatch(getOrderItems({token: token, id: order_id}))
+  }
 
   return (
     <Container>
@@ -41,7 +47,7 @@ export default function Order() {
                         { order.status.toUpperCase() }
                       </p>
                     </div>
-                    <Button className="btn-primary" onClick={()=> console.log(order.id)}>Order Details</Button>
+                    <Button className="btn-primary" onClick={()=> getOrderDetails(order.id)}>Order Details</Button>
                   </ListGroup.Item>
               )}
             </ListGroup>
