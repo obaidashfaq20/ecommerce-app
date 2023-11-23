@@ -43,9 +43,7 @@ export default function PortalNavbar() {
                 <button onClick={() => copyToken()} className='nav-link' >Copy token</button>
               </Nav.Link>
 
-              <Nav.Link>
-                <span className="nav-link">You are logged in as {userEmail}</span>
-              </Nav.Link>
+              <div className="nav-link mt-2">You are logged in as <Link to='/orders'>{userEmail}</Link></div>
 
               <Nav.Link>
                 <Button className='btn-warning' onClick={handleLogout}>Logout</Button>

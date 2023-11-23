@@ -8,7 +8,7 @@ import PaymentContainer from '../../payment/PaymentContainer';
 
 export default function Cart() {
   const cart = useSelector(state => state.cart.items);
-   const token = useSelector(state => state.user.token);
+  const token = useSelector(state => state.user.token);
   const dispatch = useDispatch();
 
   const removeFromTheCart = (product_id) => {
@@ -30,7 +30,7 @@ export default function Cart() {
     <div className='container'>
       { cart.length === 0 ?
           <h1>
-            Cart is empty, add some items from
+            Cart is empty, add some items from&nbsp;
             <Link to='/products'>Product List</Link>
           </h1>
         : <>

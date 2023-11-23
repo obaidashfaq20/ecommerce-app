@@ -13,6 +13,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import Cart from './portal/product/cart/Cart';
 import Signup from './auth/signup/Signup';
+import Order from './portal/order/order';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -47,6 +48,12 @@ root.render(
             <Route path='/cart' element={
                 <ProtectedRoute>
                   <Cart />
+                </ProtectedRoute>
+              }
+            />
+            <Route path='/orders' element={
+                <ProtectedRoute>
+                  <Order />
                 </ProtectedRoute>
               }
             />

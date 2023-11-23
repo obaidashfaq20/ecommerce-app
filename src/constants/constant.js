@@ -8,3 +8,4 @@ export const CART_ITEMS_URL = `${BASE_URL}/cart/products`;
 export const REMOVE_CART_ITEMS_URL = `${BASE_URL}/cart_items`;
 export const ADD_TO_CART = `${BASE_URL}/cart_item/add_to_cart`;
 export const PAYMENT_INTENT = `${BASE_URL}/create_payment_intent`;
+export const ORDERS_URL = `${BASE_URL}/orders`;
