@@ -4,12 +4,11 @@ import './product.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteProduct, fetchProducts } from '../../features/product/productSice';
 // import { unwrapResult } from '@reduxjs/toolkit';
-import TimeAgo from 'javascript-time-ago';
-import en from 'javascript-time-ago/locale/en';
 import { useNavigate } from 'react-router-dom';
 import { RiDeleteBinLine } from 'react-icons/ri';
 import { IoMdAdd } from 'react-icons/io';
 import { addToCart } from '../../features/cart/cartSlice';
+import { fetchTimeAgo } from '../../util/fetchTimeAgo';
 
 export default function Product() {
   const status = useSelector(state => state.product.status);
@@ -61,14 +60,6 @@ export default function Product() {
     dispatch(addToCart({product: product, token: token}))
   }
 
-  const fetchTimeAgo = (updatedAt) => {
-    TimeAgo.addLocale(en);
-    const timeAgo = new TimeAgo('en-US');
-    const inSeconds = new Date(updatedAt).getTime();
-    const minutesAgo = timeAgo.format(inSeconds - 60 * 1000);
-    return minutesAgo;
-  }
-
   return (
     <>
       <Container className='d-flex flex-wrap' style={{paddingBottom: '100px'}}>
@@ -107,7 +98,8 @@ export default function Product() {
           ) }
         </>: 
           <Alert key='danger' variant='danger'>
-            {error}
+            LOGOUT AND LOG BACK IN:
+            error: {error}
           </Alert>
       }
       </Container>
