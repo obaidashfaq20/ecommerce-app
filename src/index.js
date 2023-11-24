@@ -14,6 +14,7 @@ import store from './store';
 import Cart from './portal/product/cart/Cart';
 import Signup from './auth/signup/Signup';
 import Order from './portal/order/order';
+import OrderItem from './portal/order/orderItem';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -54,6 +55,12 @@ root.render(
             <Route path='/orders' element={
                 <ProtectedRoute>
                   <Order />
+                </ProtectedRoute>
+              }
+            />
+            <Route path='/order/:order_id/order_items' element={
+                <ProtectedRoute>
+                  <OrderItem />
                 </ProtectedRoute>
               }
             />

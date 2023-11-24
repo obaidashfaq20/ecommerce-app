@@ -2,15 +2,15 @@ import React, { useEffect } from 'react'
 import { Button, Container, ListGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux';
 import { getOrders } from '../../features/order/orderSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { fetchTimeAgo } from '../../util/fetchTimeAgo';
-import { getOrderItems } from '../../features/order_item/orderItemSlice';
 
 export default function Order() {
   const token = useSelector(state => state.user.token);
   const orders = useSelector(state => state.order.items);
   const email = useSelector(state => state.user.email);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     dispatch(getOrders(token));
@@ -18,8 +18,7 @@ export default function Order() {
   }, []);
 
   const getOrderDetails = (order_id) => {
-    console.log(`Get order items for order[${order_id}]`);
-    dispatch(getOrderItems({token: token, id: order_id}))
+    navigate(`/order/${order_id}/order_items`);
   }
 
   return (
