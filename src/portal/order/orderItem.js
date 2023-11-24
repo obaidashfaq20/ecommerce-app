@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getOrderItems } from '../../features/order_item/orderItemSlice';
 import { Container, ListGroup } from 'react-bootstrap';
 import { Link, useParams } from 'react-router-dom';
-import { fetchTimeAgo } from '../../util/fetchTimeAgo';
 
 export default function OrderItem() {
   const token = useSelector(state => state.user.token);
@@ -13,6 +12,7 @@ export default function OrderItem() {
 
   useEffect(() => {
     dispatch(getOrderItems({token: token, id: order_id}))
+    // eslint-disable-next-line
   }, [order_id])
 
   return (
