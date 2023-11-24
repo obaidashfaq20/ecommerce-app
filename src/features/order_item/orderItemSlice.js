@@ -14,8 +14,7 @@ export const orderItemSlice = createSlice({
         console.log('Order Items Fetching')
       })
       .addCase(getOrderItems.fulfilled, (state, action) => {
-        console.log('Order Items Fetched')
-        console.log({action})
+        state.items = action.payload;
       })
       .addCase(getOrderItems.rejected, error => {
         console.log({error})
