@@ -38,7 +38,9 @@ export const getOrders = createAsyncThunk(
 export const createOrder = createAsyncThunk(
   'order/createOrders',
   async(_obj) => {
-    const { token } = _obj
+    const { token, cartItems } = _obj
+    var data = JSON.stringify({ cartItems });
+
     var config = {
       method: 'post',
       url: ORDERS_URL,
@@ -46,6 +48,7 @@ export const createOrder = createAsyncThunk(
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       },
+      data: data
     }
     const response = await axios(config);
     return response.data;

@@ -23,7 +23,9 @@ export default function OrderItem() {
             No order item for this particular order
           </h3>
         : <>
-            <h3>Total Items: {orderItems.length}</h3>
+            <h3>{orderItems.length === 1 ? 'Total Item: 1'
+                 : `Total Items: ${orderItems.length}` 
+            }</h3>
             <ListGroup  as="ol" numbered>
               { orderItems.map(product =>
                   <ListGroup.Item

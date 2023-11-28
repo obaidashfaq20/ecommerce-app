@@ -54,7 +54,7 @@ export default function Cart() {
                   </ListGroup.Item>
               )}
             </ListGroup>
-            <PaymentContainer payment_amount={totalCost()}/>
+            <PaymentContainer payment_amount={totalCost()} cartItems={cart}/>
           </>
       }
     </div>

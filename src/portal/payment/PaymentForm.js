@@ -5,7 +5,7 @@ import { Button, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { createOrder } from '../../features/order/orderSlice';
 
-const PaymentForm = ({ paymentAmount }) => {
+const PaymentForm = ({ paymentAmount, cartItems }) => {
   const stripe = useStripe();
   const elements = useElements();
   const token = useSelector(state => state.user.token);
@@ -45,7 +45,7 @@ const PaymentForm = ({ paymentAmount }) => {
       // Payment successful
       console.log('Payment succeeded:', result.paymentIntent);
     }
-    dispatch(createOrder({token: token}))
+    dispatch(createOrder({token: token, cartItems: cartItems}))
     navigate('/orders');
   };
 

@@ -5,10 +5,10 @@ import PaymentForm from './PaymentForm';
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
-const PaymentContainer = ({payment_amount}) => {
+const PaymentContainer = ({ payment_amount, cartItems }) => {
   return (
     <Elements stripe={stripePromise}>
-      <PaymentForm paymentAmount={payment_amount} />
+      <PaymentForm paymentAmount={payment_amount} cartItems={cartItems} />
     </Elements>
   );
 };
