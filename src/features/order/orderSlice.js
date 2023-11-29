@@ -21,6 +21,17 @@ export const orderSlice = createSlice({
       .addCase(getOrders.rejected, (state, object) => {
         console.log({object})
       })
+      .addCase(createOrder.pending, state => {
+        console.log('Creating order')
+      })
+      .addCase(createOrder.fulfilled, (state, action) => {
+        console.log('Order created')
+        console.log({action})
+        state.order = action.payload
+      })
+      .addCase(createOrder.rejected, (state, object) => {
+        console.log({object})
+      })
   }
 })
 
