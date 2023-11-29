@@ -16,6 +16,9 @@ const PaymentForm = ({ paymentAmount, cartItems }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const buttonPointer = document.querySelector('#proceed_to_payment');
+    buttonPointer.innerHTML = 'Processing...';
+    buttonPointer.setAttribute('disabled', true);
     const centsToDollars = paymentAmount * 100;
     const response = await fetch(`${PAYMENT_INTENT}/?amount=${centsToDollars}&email=${email}&name=${name}`, {
       method: 'POST',
@@ -53,7 +56,7 @@ const PaymentForm = ({ paymentAmount, cartItems }) => {
     <Form onSubmit={handleSubmit}>
       <CardElement className='form-control'/>
       <div className='d-flex justify-content-center mt-5'>
-        <Button type="submit" className="btn-primary" size='lg'>Proceed to Payment</Button>
+        <Button type="submit" className="btn-primary" size='lg' id="proceed_to_payment">Proceed to Payment</Button>
       </div>
     </Form>
   );
