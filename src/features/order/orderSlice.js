@@ -6,6 +6,7 @@ import { ORDERS_URL } from "../../constants/constant";
 export const orderSlice = createSlice({
   name: 'order',
   initialState: {
+    order: null,
     items: []
   },
   reducers: {},
@@ -49,9 +50,8 @@ export const getOrders = createAsyncThunk(
 export const createOrder = createAsyncThunk(
   'order/createOrders',
   async(_obj) => {
-    const { token, cartItems } = _obj
-    var data = JSON.stringify({ cartItems });
-
+    const { token, cartItems, payment_intent_id } = _obj
+    var data = JSON.stringify({ cartItems: cartItems, payment_intent_id: payment_intent_id });
     var config = {
       method: 'post',
       url: ORDERS_URL,
