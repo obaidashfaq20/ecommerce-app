@@ -47,9 +47,9 @@ const PaymentForm = ({ paymentAmount, cartItems }) => {
     } else {
       // Payment successful
       console.log('Payment succeeded:', result.paymentIntent);
+      dispatch(createOrder({token: token, cartItems: cartItems, payment_intent_id: result.paymentIntent.id}))
+      navigate('/orders');
     }
-    dispatch(createOrder({token: token, cartItems: cartItems}))
-    navigate('/orders');
   };
 
   return (
