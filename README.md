@@ -1,3 +1,10 @@
+# About Running SonarQube locally
+```
+docker compose up
+http://localhost:9000/
+<!-- Create a new project -->
+sonar-scanner -Dsonar.projectKey=<project_key> -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.token=<token>
+```
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
