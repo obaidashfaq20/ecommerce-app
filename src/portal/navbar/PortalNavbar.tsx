@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 import { setShowNofificationCopiedModal } from '../../features/setting/settingSlice';
 import Notifier from '../../helpers/notifier';
-import { cartInterface, stateInterface, userInterface } from '../../interfaces';
+import { stateInterface } from '../../interfaces';
 
 export default function PortalNavbar() {
   const navigate = useNavigate();
