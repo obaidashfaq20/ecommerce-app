@@ -5,14 +5,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 import { setShowNofificationCopiedModal } from '../../features/setting/settingSlice';
 import Notifier from '../../helpers/notifier';
+import { cartInterface, stateInterface, userInterface } from '../../interfaces';
 
 export default function PortalNavbar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const userEmail = useSelector(state => state.user.email);
-  const token = useSelector(state => state.user.token);
-  const cart = useSelector(state => state.cart.items);
+  const userEmail = useSelector((state: stateInterface) => state.user.email);
+  const token = useSelector((state: stateInterface) => state.user.token);
+  const cart = useSelector((state: stateInterface) => state.cart.items);
 
   const copyToken = () => {
     navigator.clipboard.writeText(token);
